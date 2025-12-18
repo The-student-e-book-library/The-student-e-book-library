@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PSM Institute | Mock Test Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{
+    margin:0;
+    background:#0b0b0b;
+    color:white;
+    font-family:'Inter',sans-serif;
+  }
+  header{
+    background:orange;
+    color:black;
+    text-align:center;
+    padding:20px;
+    font-size:26px;
+    font-weight:800;
+  }
+  #info{
+    text-align:center;
+    margin-top:10px;
+    color:#ccc;
+  }
+  #timer{
+    text-align:center;
+    margin:15px 0;
+    font-size:25px;
+    color:orange;
+    font-weight:700;
+  }
+  .question-box{
+    max-width:900px;
+    margin:20px auto;
+    background:rgb(7, 243, 211);
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 0 20px rgba(10, 10, 10, 0.15);
+  }
+  .question{
+    font-size:20px;
+    margin-bottom:20px;
+  }
+  .option{
+    background:#000;
+    padding:12px 16px;
+    margin-bottom:12px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+    border:2px solid #222;
+  }
+  .option:hover{
+    background:orange;
+    color:black;
+  }
+  .option.selected{
+    background:orange;
+    color:black;
+    border-color:orange;
+  }
+  .controls{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+  }
+  button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:15px;
+  }
+  .next{
+    background:#333;
+    color:white;
+  }
+  .previous{
+    background:#eb0808;
+    color:white;
+  }
+  .submit{
+    background:orange;
+    color:rgb(0, 0, 0);
+  }
+  .result{
+    max-width:700px;
+    margin:60px auto;
+    background:#04069b;
+    padding:30px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 0 25px rgba(255,140,0,0.25);
+  }
+  .result h2{color:orange;margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<header id="title">Mock Test</header>
+<div id="info"></div>
+<div id="timer">Time: 10:00</div>
+
+<div id="app"></div>
+
+<script>
+/************* URL DATA *************/
+const params = new URLSearchParams(window.location.search);
+const subject = params.get('sub');
+const className = params.get('cls');
+const chapter = params.get('ch');
+
+document.getElementById('title').innerText = `${subject} | Class ${className} | Chapter ${chapter}`;
+document.getElementById('info').innerText =   'Chapter Wise 20 MCQS';
+
+/************* QUESTION BANK *************/
+const questionBank = {
+  Physics: {
+    1: [
+      {q:"SI unit of length is?",o:["Meter","Cm","Km","Mm"],a:0},
+      {q:"SI unit of mass is?",o:["Gram","Kilogram","Pound","Ton"],a:1}
+    ],
+    2: [
+      {q:"Study of motion is called?",o:["Dynamics","Kinematics","Statics","Thermo"],a:1},
+      {q:"SI unit of velocity is?",o:["m/s","m","m/s²","km"],a:0},
+  { q:"SI unit of displacement is?", o:["Meter","m/s","m/s²","Km"], a:0 },
+  { q:"Speed is defined as?", o:["Displacement / time","Distance / time","Force / mass","Velocity / time"], a:1 },
+  { q:"Velocity is a?", o:["Scalar","Vector","Unit","Constant"], a:1 },
+  { q:"Acceleration is rate of change of?", o:["Speed","Velocity","Distance","Time"], a:1 },
+  { q:"SI unit of acceleration is?", o:["m/s","m/s²","km/h","N/kg"], a:1 },
+  { q:"When velocity decreases, acceleration is?", o:["Positive","Zero","Negative","Infinite"], a:2 },
+  { q:"Uniform motion means?", o:["Changing speed","Constant speed","Zero speed","Increasing speed"], a:1 },
+  { q:"A body at rest has velocity?", o:["1 m/s","Zero","Negative","Infinite"], a:1 },
+  { q:"Distance is a _____ quantity.", o:["Vector","Scalar","Derived","Fundamental"], a:1 },
+  { q:"Velocity–time graph gives?", o:["Speed","Acceleration","Distance","Force"], a:2 },
+  { q:"Slope of velocity–time graph represents?", o:["Speed","Acceleration","Distance","Displacement"], a:1 },
+  { q:"Area under velocity–time graph gives?", o:["Acceleration","Speed","Displacement","Force"], a:2 },
+  { q:"If acceleration is zero, motion is?", o:["Uniform","Non-uniform","Circular","Random"], a:0 },
+  { q:"Retardation means?", o:["Positive acceleration","Negative acceleration","Zero speed","High speed"], a:1 },
+  { q:"Which instrument measures speed?", o:["Ammeter","Speedometer","Voltmeter","Thermometer"], a:1 },
+  { q:"If a body covers equal distances in equal intervals, motion is?", o:["Random","Uniform","Circular","Oscillatory"], a:1 },
+  { q:"Average speed formula is?", o:["Total distance / total time","Displacement / time","Final speed / time","Speed × time"], a:0 },
+  { q:"Instantaneous speed is speed at?", o:["Long interval","Short interval","A particular moment","End of motion"], a:2 },
+  
+    ],
+    
+  },
+  
+  Chemistry: {
+    1: [
+      {q:"Chemistry is study of?",o:["Matter","Energy","Life","Force"],a:0},
+      {q:"Chemical formula of water is?",o:["H2O","CO2","O2","H2"],a:0}
+    ]
+  },
+  Mathematics:{},
+  Biology:{},
+  Computer:{}
+};
+
+let questions = questionBank[subject]?.[chapter] || [];
+questions = questions.slice(0,20);
+
+/************* ENGINE *************/
+let index = 0;
+let score = 0;
+let answers = new Array(questions.length).fill(null);
+
+const app = document.getElementById('app');
+
+function renderQuestion(){
+  const q = questions[index];
+  if(!q){ app.innerHTML='<p style="text-align:center">No MCQs Found</p>'; return; }
+
+  app.innerHTML = `
+    <div class="question-box">
+      <div class="question">${index+1}. ${q.q}</div>
+      ${q.o.map((opt,i)=>`<div class="option ${answers[index]===i?'selected':''}" onclick="selectOpt(${i})">${opt}</div>`).join('')}
+      <div class="controls">
+        <button class="next" onclick="nextQ()">Next</button>
+       <button class="previous" onclick="previousQ()">Previous</button>
+        <button class="submit" onclick="submitTest()">Submit</button>
+      </div>
+    </div>
+  `;
+}
+
+window.selectOpt = function(i){ answers[index]=i; renderQuestion(); }
+window.nextQ = function(){ if(index < questions.length-1){ index++; renderQuestion(); }}
+window.previousQ = function(){
+  if(index > 0){
+    index--;
+    renderQuestion();
+  }
+}
+
+
+window.submitTest = function(){
+  score = 0;
+  let reviewHTML = '';
+
+  questions.forEach((q,i)=>{
+    const userAns = answers[i];
+    const correct = q.a;
+    if(userAns === correct) score++;
+
+    reviewHTML += `
+      <div style="text-align:left;margin:20px 0;padding:15px;border-radius:10px;background:#000;border:1px solid #222;">
+        <p><b>Q${i+1}:</b> ${q.q}</p>
+        <p><b>Your Answer:</b> <span style="color:${userAns===correct?'#0f0':'#f33'}">${userAns!=null ? q.o[userAns] : 'Not Attempted'}</span></p>
+        <p><b>Correct Answer:</b> <span style="color:#0f0">${q.o[correct]}</span></p>
+      </div>
+    `;
+  });
+
+  const percent = Math.round((score/questions.length)*100);
+  let remark = percent>=80?'Excellent':percent>=50?'Good':'Need Improvement';
+
+  app.innerHTML = `
+    <div class="result">
+      <h2>Result</h2>
+      <p><b>Score:</b> ${score} / ${questions.length}</p>
+      <p><b>Percentage:</b> ${percent}%</p>
+      <p><b>Remark:</b> ${remark}</p>
+      <hr style="margin:20px 0;border-color:#333;" />
+      <h3 style="color:orange">MCQs Review</h3>
+      ${reviewHTML}
+    </div>
+  `;
+}
+
+renderQuestion();
+
+/************* TIMER *************/
+let time = 600;
+setInterval(()=>{
+  time--;
+  const m = Math.floor(time/60);
+  const s = time%60;
+  document.getElementById('timer').innerText = `Time: ${m}:${s<10?'0':''}${s}`;
+  if(time<=0) submitTest();
+},1000);
+</script>
+</body>
+</html>
