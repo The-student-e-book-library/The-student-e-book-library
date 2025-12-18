@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PSM Institute — E-Book Library</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', sans-serif;}
+body{background:#0b0b0b;color:white;}
+
+/* ================= HEADER ================= */
+.top-header{
+  background:rgb(252, 249, 248);
+  padding:10px 20px;
+}
+
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-area img{
+  width:45px;
+  height:45px;
+  object-fit:contain;
+}
+
+.logo-area span{
+  font-size:20px;
+  font-weight:700;
+  color:rgb(7, 7, 7);
+}
+
+header{background:#000;padding:15px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
+.logo{display:flex;flex-direction:column;position:relative;}
+.logo h1{font-size:26px;font-weight:800;position:relative;z-index:2;}
+.logo h1 .psm{color:white;}
+.logo h1 .inst{color:orange;}
+.logo img{position:absolute;top:0;left:0;width:50px;height:50px;z-index:1;}
+.logo small{font-size:12px;color:white;margin-top:-2px;}
+nav ul{list-style:none;display:flex;gap:25px;}
+nav ul li{position:relative;}
+nav ul li a{text-decoration:none;color:rgb(7, 7, 7);font-weight:500;padding:8px 5px;cursor:pointer;}
+nav ul li a:hover{color:orange;}
+.dropdown{display:none;position:absolute;top:35px;background:orange;padding:10px 0;border-radius:6px;min-width:170px;}
+.dropdown a{display:block;padding:8px 15px;color:white;font-size:14px;}
+.dropdown a:hover{background:orange;color:black;}
+nav ul li:hover > .dropdown,
+nav ul li .dropdown:hover{
+  display:block;
+}
+
+/* ================= SECTIONS ================= */
+section{display:none;min-height:100vh;padding:60px 40px;}
+section.active{display:block;}
+
+/* ================= HERO ================= */
+.hero{height:90vh;position:relative;overflow:hidden;}
+.hero::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:url('evening.jpg') center/cover no-repeat;filter:brightness(0.5);z-index:0;}
+.slides{position:absolute;width:400%;height:100%;display:flex;transition:1s ease-in-out;}
+.slide{width:100%;height:100%;background-size:cover;background-position:center;filter:brightness(0.45);}
+.hero-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;}
+.hero-content h2{font-size:52px;font-weight:800;}
+.hero-content h3{font-size:22px;margin-top:10px;font-weight:400;color:#ddd;}
+.typing span{border-right:3px solid orange;padding-right:5px;animation:blink .7s infinite;}
+@keyframes blink{0%,100%{border-color:transparent;}50%{border-color:orange;}}
+
+/* ================= HOME CONTENT ================= */
+.home-text{margin-top:20px;text-align:center;}
+.home-text h3{color:orange;margin-bottom:15px;}
+.home-text p{color:#ccc;max-width:900px;margin:auto;font-size:18px;margin-bottom:25px;}
+
+/* ================= TEAM / SUBJECT BOXES ================= */
+.team{background:#0d0d0d;}
+.team h2{color:orange;text-align:center;margin-bottom:40px;}
+.team-grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+.team-box{background:#111;border-radius:12px;padding:25px;text-align:center;position:relative;}
+.team-box h3{color:orange;margin-bottom:10px;}
+.btns{display:flex;justify-content:center;gap:10px;margin-top:15px;}
+.btn{background:#222;color:white;padding:10px 15px;border-radius:8px;cursor:pointer;transition:0.3s;}
+.btn:hover{background:orange;color:black;}
+
+/* ================= CIRCLES FOR YEARS / CHAPTERS ================= */
+
+.paper-boxes{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:40px;
+}
+
+.paper-box{
+  background:#050505;
+  color:white;
+  padding:25px 35px;
+  border-radius:12px;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+  border:2px solid orange;
+}
+
+.paper-box:hover{
+  background:orange;
+  color:rgb(221, 4, 4);
+}
+
+.year-grid{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+  margin-top:40px;
+}
+
+#chapter-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* vertical center */
+  align-items: center;      /* horizontal center */
+  min-height: 80vh;         /* take enough vertical space */
+  background: #0b0b0b;
+}
+
+#chapter-title {
+  color: orange;
+  margin-bottom: 40px;
+  font-size: 32px;
+  text-align: center;
+}
+
+.circle-grid{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+  width:100%;
+}
+
+.circle{
+  width:150px;
+  height:150px;
+  background:rgb(214, 8, 8);
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.circle:hover{
+  transform:scale(1.1);
+  background:orange;
+  color:rgb(243, 4, 4);
+}
+
+.circle{
+  width:120px;
+  height:120px;
+  background:#e70808;
+  color:#fff;
+  border:3px solid rgb(2, 2, 2);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.circle:hover{
+  background:orange;
+  color:rgb(231, 13, 13);
+}
+.mcq-box{
+  background:#111;
+  border:2px solid orange;
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.question{
+  font-size:18px;
+  margin-bottom:15px;
+  font-weight:600;
+}
+
+.option{
+  display:block;
+  padding:10px 12px;
+  margin-bottom:10px;
+  border:1px solid #333;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.option:hover{
+  background:orange;
+  color:black;
+}
+
+.option input{
+  margin-right:10px;
+}
+
+/* ================= GALLERY ================= */
+.gallery{background:#111;}
+.gallery h2{color:orange;text-align:center;margin-bottom:30px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.gallery-grid img{width:100%;border-radius:10px;transition:.4s;}
+.gallery-grid img:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,.6);}
+
+/* ================= ABOUT US ================= */
+.about-header{
+  background:linear-gradient(180deg,#000,#111);
+  padding:70px 30px;
+  text-align:center;
+}
+.about-header h2{
+  color:#fff;
+  font-size:42px;
+  font-weight:800;
+  max-width:1200px;
+  margin:auto;
+}
+.about-grid{
+  max-width:1200px;
+  margin:50px auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:25px;
+}
+.about-box{
+  background:#fff;
+  color:#000;
+  border-radius:5px;
+  width: 100%;
+  height: 270px;
+  padding:10px;
+  text-align:center;
+}
+.about-box:hover{
+cursor:pointer;
+  transition:0.3s;
+}
+.about-box img{
+  width:100%;
+  height:200px;
+  object-fit:scale-down;
+  border: radius 0;
+  margin-bottom:10px;
+}
+.about-box:hover{
+  background:rgb(126, 116, 116);
+  color:white;
+}
+.about-box p{
+  font-size:15px;
+  font-weight:500;
+}
+.about-purpose{
+  background:#1c1c1c;
+  color:#fff;
+  padding:35px;
+  margin:50px auto;
+  border-radius:16px;
+  text-align:center;
+  max-width:1200px;
+}
+.about-purpose h3{
+  margin-bottom:10px;
+  font-size:22px;
+  font-weight:700;
+}
+
+/* ================= FOOTER ================= */
+footer{background:#000;text-align:center;padding:20px;font-size:14px;color:#aaa;}
+@media(max-width:768px){.hero-content h2{font-size:36px;}.gallery-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+
+
+<body>
+
+<header class="top-header">
+  <div class="logo-area">
+    <img src="psm.png" alt="PSM Logo">
+    <span>PSM INSTITUTE</span>
+  </div>
+
+
+
+
+  <nav>
+    <ul>
+      <li><a onclick="showSection('home')">HOME</a></li>
+      <li>
+        <a>BOARD</a>
+        <div class="dropdown">
+          <a onclick="showSection('akueb-board')">AKUEB</a>
+          <a onclick="showSection('federal-board')">FEDERAL</a>
+        </div>
+      </li>
+      <li>
+        <a>LEARNING MATERIAL</a>
+        <div class="dropdown">
+          <a onclick="showSection('notes-section')">Notes</a>
+          <a onclick="showSection('mocktest-section')">Mock Test</a>
+          <a onclick="showSection('video-section')">Video Lesson</a>
+        </div>
+      </li>
+      <li><a onclick="showSection('about')">ABOUT US</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ================= HOME ================= -->
+<section id="home" class="active">
+  <div class="hero">
+    <div class="hero-content">
+      <h2 class="typing" id="typing"></h2>
+      <h3>For AKUEB and FEDERAL Board Students</h3>
+    </div>
+  </div>
+  <div class="home-text">
+    <h3>What is E-Book Library</h3>
+    <p>An E-Book Library is a digital platform where students can access past papers, notes, video lessons, mock tests, and other material  easily online.</p>
+    <h3>You Will Get From Here</h3>
+    <p>Access past papers, detailed notes, chapter-wise video lessons, mock tests, and additional learning resources for AKUEB and FEDERAL Board students.</p>
+  </div>
+</section>
+
+<!-- ================= AKUEB BOARD ================= -->
+<section id="akueb-board" style="background:blue;">
+
+  <h2>AKUEB Board Past Papers</h2>
+  <div class="team-grid">
+
+    <!-- Physics -->
+    
+    <div class="team-box">
+  <h3>Physics</h3>
+  <div class="btns">
+  <div class="btn" onclick="openPaperFlow('AKUEB','Physics','IX')">IX</div>
+<div class="btn" onclick="openPaperFlow('AKUEB','Physics','X')">X</div>
+<div class="btn" onclick="openPaperFlow('AKUEB','Physics','XI')">XI</div>
+<div class="btn" onclick="openPaperFlow('AKUEB','Physics','XII')">XII</div>
+
+  </div>
+</div>
+
+    
+
+    <!-- Mathematics -->
+    <div class="team-box">
+      <h3>Mathematics</h3>
+      <div class="btns">
+         <div class="btn" onclick="openPaperFlow('AKUEB','Mathematics','IX')">IX</div>
+         <div class="btn" onclick="openPaperFlow('AKUEB','Mathematics','X')">X</div>
+         <div class="btn" onclick="openPaperFlow('AKUEB','Mathematics','XI')">XI</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Mathematics','XII')">XII</div>
+
+      </div>
+    </div>
+
+    <!-- Biology -->
+    <div class="team-box">
+      <h3>Biology</h3>
+      <div class="btns">
+        <div class="btn" onclick="openPaperFlow('AKUEB','Biology','IX')">IX</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Biology','X')">X</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Biology','XI')">XI</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Biology','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Chemistry -->
+    <div class="team-box">
+      <h3>Chemistry</h3>
+      <div class="btns">
+        <div class="btn" onclick="openPaperFlow('AKUEB','Chemistry','IX')">IX</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Chemistry','X')">X</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Chemistry','XI')">XI</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Chemistry','XII')">XII</div>
+
+      </div>
+    </div>
+
+    <!-- Computer -->
+    <div class="team-box">
+      <h3>Computer</h3>
+      <div class="btns">
+        <div class="btn" onclick="openPaperFlow('AKUEB','Computer','IX')">IX</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Computer','X')">X</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Computer','XI')">XI</div>
+        <div class="btn" onclick="openPaperFlow('AKUEB','Computer','XII')">XII</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= FEDERAL BOARD ================= -->
+<section id="federal-board" style="background:blue;">
+  <h2>FEDERAL Board Past Papers</h2>
+  <div class="team-grid">
+    <div class="team-box">
+      <h3>Physics</h3>
+      <div class="btns">
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Physics','IX')">IX</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Physics','X')">X</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Physics','XI')">XI</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Physics','XII')">XII</div>
+
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Biology</h3>
+      <div class="btns">
+         <div class="btn" onclick="openPaperFlow('FEDERAL','Biology','IX')">IX</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Biology','X')">X</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Biology','XI')">XI</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Biology','XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Mathematics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openPaperFlow('FEDERAL','Mathematics','IX')">IX</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Mathematics','X')">X</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Mathematics','XI')">XI</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Mathematics','XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Chemistry</h3>
+      <div class="btns">
+         <div class="btn" onclick="openPaperFlow('FEDERAL','Chemistry','IX')">IX</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Chemistry','X')">X</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Chemistry','XI')">XI</div>
+          <div class="btn" onclick="openPaperFlow('FEDERAL','Chemistry','XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Computer</h3>
+      <div class="btns">
+        <div class="btn" onclick="openPaperFlow('FEDERAL','Computer','IX')">IX</div>
+        <div class="btn" onclick="openPaperFlow('FEDERAL','Computer','X')">X</div>
+        <div class="btn" onclick="openPaperFlow('FEDERAL','Computer','XI')">XI</div>
+        <div class="btn" onclick="openPaperFlow('FEDERAL','Computer','XII')">XII</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOTES ================= -->
+<section id="notes-section" style="background:blue;">
+  <h2>Chapter Wise Notes</h2>
+  <div class="team-grid">
+    <div class="team-box">
+      <h3>Physics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openChapters('Physics IX')">IX</div>
+        <div class="btn" onclick="openChapters('Physics X')">X</div>
+        <div class="btn" onclick="openChapters('Physics XI')">XI</div>
+        <div class="btn" onclick="openChapters('Physics XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Mathematics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openChapters('Math IX')">IX</div>
+        <div class="btn" onclick="openChapters('Math X')">X</div>
+        <div class="btn" onclick="openChapters('Math XI')">XI</div>
+        <div class="btn" onclick="openChapters('Math XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Biology</h3>
+      <div class="btns">
+        <div class="btn" onclick="openChapters('Biology IX')">IX</div>
+        <div class="btn" onclick="openChapters('Biology X')">X</div>
+        <div class="btn" onclick="openChapters('Biology XI')">XI</div>
+        <div class="btn" onclick="openChapters('Biology XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Chemistry</h3>
+      <div class="btns">
+        <div class="btn" onclick="openChapters('Chemistry IX')">IX</div>
+        <div class="btn" onclick="openChapters('Chemistry X')">X</div>
+        <div class="btn" onclick="openChapters('Chemistry XI')">XI</div>
+        <div class="btn" onclick="openChapters('Chemistry XII')">XII</div>
+      </div>
+    </div>
+    <div class="team-box">
+      <h3>Computer</h3>
+      <div class="btns">
+        <div class="btn" onclick="openChapters('Computer IX')">IX</div>
+        <div class="btn" onclick="openChapters('Computer X')">X</div>
+        <div class="btn" onclick="openChapters('Computer XI')">XI</div>
+        <div class="btn" onclick="openChapters('Computer XII')">XII</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOCK TEST ================= -->
+<section id="mocktest-section" style="background:#04198f;">
+  <h2>Mock Test</h2>
+
+  <div class="team-grid">
+
+    <!-- Physics -->
+    <div class="team-box">
+      <h3>Physics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openMockChapters('Physics','IX')">IX</div>
+        <div class="btn" onclick="openMockChapters('Physics','X')">X</div>
+        <div class="btn" onclick="openMockChapters('Physics','XI')">XI</div>
+        <div class="btn" onclick="openMockChapters('Physics','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Chemistry -->
+    <div class="team-box">
+      <h3>Chemistry</h3>
+      <div class="btns">
+        <div class="btn" onclick="openMockChapters('Chemistry','IX')">IX</div>
+        <div class="btn" onclick="openMockChapters('Chemistry','X')">X</div>
+        <div class="btn" onclick="openMockChapters('Chemistry','XI')">XI</div>
+        <div class="btn" onclick="openMockChapters('Chemistry','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Biology -->
+    <div class="team-box">
+      <h3>Biology</h3>
+      <div class="btns">
+        <div class="btn" onclick="openMockChapters('Biology','IX')">IX</div>
+        <div class="btn" onclick="openMockChapters('Biology','X')">X</div>
+        <div class="btn" onclick="openMockChapters('Biology','XI')">XI</div>
+        <div class="btn" onclick="openMockChapters('Biology','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Mathematics -->
+    <div class="team-box">
+      <h3>Mathematics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openMockChapters('Mathematics','IX')">IX</div>
+        <div class="btn" onclick="openMockChapters('Mathematics','X')">X</div>
+        <div class="btn" onclick="openMockChapters('Mathematics','XI')">XI</div>
+        <div class="btn" onclick="openMockChapters('Mathematics','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Computer -->
+    <div class="team-box">
+      <h3>Computer</h3>
+      <div class="btns">
+        <div class="btn" onclick="openMockChapters('Computer','IX')">IX</div>
+        <div class="btn" onclick="openMockChapters('Computer','X')">X</div>
+        <div class="btn" onclick="openMockChapters('Computer','XI')">XI</div>
+        <div class="btn" onclick="openMockChapters('Computer','XII')">XII</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ================= VIDEO LESSON ================= -->
+<section id="video-section" style="background:#0616ee;">
+  <h2>Video Lessons</h2>
+
+  <div class="team-grid">
+    <!-- Physics -->
+    <div class="team-box">
+      <h3>Physics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openVideoChapters('Physics','IX')">IX</div>
+        <div class="btn" onclick="openVideoChapters('Physics','X')">X</div>
+        <div class="btn" onclick="openVideoChapters('Physics','XI')">XI</div>
+        <div class="btn" onclick="openVideoChapters('Physics','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Mathematics -->
+    <div class="team-box">
+      <h3>Mathematics</h3>
+      <div class="btns">
+        <div class="btn" onclick="openVideoChapters('Mathematics','IX')">IX</div>
+        <div class="btn" onclick="openVideoChapters('Mathematics','X')">X</div>
+        <div class="btn" onclick="openVideoChapters('Mathematics','XI')">XI</div>
+        <div class="btn" onclick="openVideoChapters('Mathematics','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Biology -->
+    <div class="team-box">
+      <h3>Biology</h3>
+      <div class="btns">
+        <div class="btn" onclick="openVideoChapters('Biology','IX')">IX</div>
+        <div class="btn" onclick="openVideoChapters('Biology','X')">X</div>
+        <div class="btn" onclick="openVideoChapters('Biology','XI')">XI</div>
+        <div class="btn" onclick="openVideoChapters('Biology','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Chemistry -->
+    <div class="team-box">
+      <h3>Chemistry</h3>
+      <div class="btns">
+        <div class="btn" onclick="openVideoChapters('Chemistry','IX')">IX</div>
+        <div class="btn" onclick="openVideoChapters('Chemistry','X')">X</div>
+        <div class="btn" onclick="openVideoChapters('Chemistry','XI')">XI</div>
+        <div class="btn" onclick="openVideoChapters('Chemistry','XII')">XII</div>
+      </div>
+    </div>
+
+    <!-- Computer -->
+    <div class="team-box">
+      <h3>Computer</h3>
+      <div class="btns">
+        <div class="btn" onclick="openVideoChapters('Computer','IX')">IX</div>
+        <div class="btn" onclick="openVideoChapters('Computer','X')">X</div>
+        <div class="btn" onclick="openVideoChapters('Computer','XI')">XI</div>
+        <div class="btn" onclick="openVideoChapters('Computer','XII')">XII</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- about us body -->
+
+<section id="about">
+  <div class="about-header">
+    <h2>
+      THE STUDENT E-BOOK LIBRARY FOR AKUEB AND FEDERAL BOARD FROM CLASS 9–12
+    </h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-box">
+      <img src="Imran.jpg" alt="psm">
+      <p>Principal: Prof Sir Imran Ahmed Larik</p>
+    </div>
+
+    <div class="about-box">
+      <img src="Jugal.jpg" alt="psm">
+      <p>Supervisor: Prof Sir Jugal Kumar</p>
+    </div>
+
+    <div class="about-box">
+      <img src="rajesh.jpg" alt="psm">
+      <p>Co Supervisor: Engr Sir Rajesh Kumar Meghwar</p>
+    </div>
+
+    <div class="about-box">
+      <img src="Ak.jpg" alt="Ak">
+      <p>Created and designed By: Asad Ali</p>
+    </div>
+
+    <div class="about-box">
+      <img src="tehal.jpg" alt="tehal (1)">
+      <p>Supporter: Tehal Das</p>
+    </div>
+  </div>
+
+  <div class="about-purpose">
+    <h3>Purpose of E-Book Library</h3>
+    <p>
+      This E-Book Library is created to help students from class 9 to 12 of
+      AKUEB and FEDERAL boards by providing easy access to past papers,
+      notes, mock tests, video lessons, and other learning resources.
+    </p>
+  </div>
+</section>
+
+
+<footer>© 2025 PSM Institute | E-Book Library</footer>
+
+<script>
+  
+/* ================= NAVIGATION ================= */
+function showSection(id){
+  document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ================= TYPING ================= */
+const text = "The Student E-Book Library 9–12";
+let i = 0;
+const typingEl = document.getElementById('typing');
+function typeText(){
+  if(i < text.length){
+    typingEl.innerHTML = text.substring(0,i+1) + "<span></span>";
+    i++;
+    setTimeout(typeText,100);
+  }
+}
+typeText();
+
+/* ================= SLIDER ================= */
+let slideIndex = 0;
+const slides = document.getElementById('slides');
+if(slides){
+  setInterval(()=>{
+    slideIndex = (slideIndex+1)%4;
+    slides.style.transform = `translateX(-${slideIndex*100}%)`;
+  },5000);
+}
+
+/* ================= YEARS FOR PAST PAPERS ================= */
+
+
+function openPaperFlow(board, subject, className){
+  const w = window.open('', '_blank');
+
+  const papers = {
+    AKUEB: {
+      Physics: {
+        IX: {
+          MCQ: {
+            2022:"PHYSICS/2022 paper 1.pdf", 
+            2023:"PHYSICS/2023 paper 1.pdf",
+            2024:"PHYSICS/2024 paper 1.pdf",
+            2025:"PHYSICS/2024 paper 1.pdf"
+          },
+          Theory: {
+            2022:"PHYSICS/2022 paper 1.pdf", 
+            2023:"PHYSICS/2023 paper 2.pdf",
+            2024:"PHYSICS/2024 paper 2.pdf",
+            2025:"PHYSICS/2024 paper 2.pdf"
+          }
+        }
+      },
+
+      Chemistry: {
+        IX: {
+          MCQ: {
+            2022:"CHEMISTRY/2022 paper 1.pdf",
+            2023:"CHEMISTRY/2023 paper 1.pdf",
+            2024:"CHEMISTRY/2024 paper 1.pdf",
+            2025:"CHEMISTRY/2024 paper 1.pdf"},
+          Theory:{
+            2022:"CHEMISTRY/2022 paper 1.pdf",
+            2023:"CHEMISTRY/2023 paper 2.pdf",
+            2024:"CHEMISTRY/2024 paper 2.pdf",
+            2025:"CHEMISTRY/2024 paper 2.pdf"}
+        }
+      },
+
+      Mathematics: {
+        IX: {
+          MCQ: {
+            2022:"MATHEMATICS/2022 paper 1.pdf",
+            2023:"MATHEMATICS/2023 paper 1.pdf",
+            2024:"MATHEMATICS/2024 paper 1.pdf",
+            2025:"MATHEMATICS/2024 paper 1.pdf"},
+          Theory:{
+            2022:"MATHEMATICS/2022 paper 1.pdf",
+            2023:"MATHEMATICS/2023 paper 2.pdf",
+            2024:"MATHEMATICS/2024 paper 2.pdf",
+            2025:"MATHEMATICS/2024 paper 2.pdf"}
+        }
+      },
+
+      Biology: {
+        IX: {
+          MCQ: {
+            2022:"MATHEMATICS/2024 paper 2.pdf",
+            2023:"MATHEMATICS/2024 paper 2.pdf",
+            2024:"MATHEMATICS/2024 paper 2.pdf",
+            2025:"MATHEMATICS/2024 paper 2.pdf"},
+          Theory:{
+            2022:"MATHEMATICS/2024 paper 2.pdf",
+            2023:"MATHEMATICS/2024 paper 2.pdf",
+            2024:"MATHEMATICS/2024 paper 2.pdf",
+            2025:"MATHEMATICS/2024 paper 2.pdf"}
+        }
+      },
+
+      Computer: {
+        IX: {
+          MCQ: {
+            2022:"COMPUTER/2022 paper 1.pdf",
+            2023:"COMPUTER/2023 paper 1.pdf",
+            2024:"COMPUTER/2024 paper 1.pdf",
+            2025:"COMPUTER/2024 paper 1.pdf"},
+          Theory:{
+            2022:"COMPUTER/2022 paper 1.pdf",
+            2023:"COMPUTER/2023 paper 2.pdf",
+            2024:"COMPUTER/2024 paper 1.pdf",
+            2025:"COMPUTER/2024 paper 1.pdf"}
+        }
+      }
+    },
+  
+
+    /* ================= FEDERAL BOARD ================= */
+
+    FEDERAL: {
+      Physics: {
+        IX: {
+          MCQ: {
+            2022:"COMPUTER/2024 paper 1.pdf",
+            2023:"COMPUTER/2024 paper 1.pdf",
+            2024:"COMPUTER/2024 paper 1.pdf",
+            2025:"COMPUTER/2024 paper 1.pdf"
+          },
+          Theory: {
+            2022:"COMPUTER/2024 paper 1.pdf", 
+            2023:"COMPUTER/2024 paper 1.pdf",
+            2024:"COMPUTER/2024 paper 1.pdf",
+            2025:"COMPUTER/2024 paper 1.pdf"
+          }
+        }
+      },
+
+      Chemistry: {
+        IX: {
+          MCQ: {
+            2022:"#",
+            2023:"#",
+            2024:"#",
+            2025:"#"},
+          Theory:{2022:"#",
+          2023:"#",
+          2024:"#",
+          2025:"#"}
+        }
+      },
+
+      Mathematics: {
+        IX: {
+          MCQ: {2022:"#",2023:"#",2024:"#",2025:"#"},
+          Theory:{2022:"#",2023:"#",2024:"#",2025:"#"}
+        }
+      },
+
+      Biology: {
+        IX: {
+          MCQ: {2022:"#",2023:"#",2024:"#",2025:"#"},
+          Theory:{2022:"#",2023:"#",2024:"#",2025:"#"}
+        }
+      },
+
+      Computer: {
+        IX: {
+          MCQ: {2022:"#",2023:"#",2024:"#",2025:"#"},
+          Theory:{2022:"#",2023:"#",2024:"#",2025:"#"}
+        }
+      }
+    }
+  };
+
+  let html = `
+  <body style="margin:0;background:#0b0b0b;color:white;font-family:Inter;">
+    <h1 style="background:orange;color:black;text-align:center;padding:20px;">
+      ${board} — ${subject} ${className}
+    </h1>
+
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:50px;">
+      <div onclick="showYears('MCQ')" style="cursor:pointer;background:black;padding:20px 30px;border-radius:10px;border:2px solid orange;font-weight:700;">
+        Paper I (MCQs)
+      </div>
+
+      <div onclick="showYears('Theory')" style="cursor:pointer;background:black;padding:20px 30px;border-radius:10px;border:2px solid orange;font-weight:700;">
+        Paper II (Theory)
+      </div>
+    </div>
+
+    <div id="years" style="display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin-top:60px;"></div>
+
+    <script>
+      function showYears(type){
+        const box = document.getElementById('years');
+        box.innerHTML = '';
+        const data = ${JSON.stringify(papers)}['${board}']['${subject}']['${className}'][type];
+
+        for(let y=2022;y<=2025;y++){
+          const pdf = data[y] || '#';
+          const d = document.createElement('div');
+          d.innerText = y;
+          d.style.cssText =
+            'width:90px;height:90px;border-radius:50%;background:black;color:white;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;cursor:'+
+            (pdf=='#'?'not-allowed':'pointer')+
+            ';opacity:'+(pdf=='#'?0.4:1);
+
+          if(pdf!=='#') d.onclick=()=>window.open(pdf,'_blank');
+          d.onmouseover=()=>{d.style.background='orange';d.style.color='black'};
+          d.onmouseout=()=>{d.style.background='black';d.style.color='white'};
+          box.appendChild(d);
+        }
+      }
+    <\/script>
+  </body>
+  `;
+
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+
+
+
+/* ================= NOTES CHAPTERS ================= */
+/* ================= NOTES CHAPTERS ================= */
+function openChapters(subject){
+
+  const notesLinks = {
+    "Physics IX": {
+      1:"https://files.akuebresources.com/2024/12/Physics-IX-Paper-I-2024.pdf",
+      2:"https://files.akuebresources.com/2024/08/Physics-IX-Paper-II-2023.pdf",
+      3:"https://files.akuebresources.com/2024/12/Physics-IX-Paper-I-2024.pdf",
+      4:"https://files.akuebresources.com/2024/08/Physics-IX-Paper-II-2023.pdf",
+      5:"https://files.akuebresources.com/2024/12/Physics-IX-Paper-I-2024.pdf",
+      6:"https://files.akuebresources.com/2024/08/Physics-IX-Paper-II-2023.pdf"
+    }
+  };
+
+  const chapterNames = {
+    "Physics IX": [
+      "Physical Quantities & Measurement",
+      "Kinematics",
+      "Dynamics",
+      "Turning Effect of Forces",
+      "Gravitation",
+      "Work & Energy",
+      "Properties of Matter",
+      "Thermal Properties of Matter",
+      "Transfer of Heat",
+      "Optics"
+    ]
+  };
+
+  const w = window.open('', '_blank');
+  w.document.open();
+
+  let html = `
+<!DOCTYPE html>
+<html>
+<head>
+<title>${subject} — Notes</title>
+<style>
+body{
+  margin:0;
+  background:#0b0b0b;
+  color:white;
+  font-family:Inter, Arial;
+}
+.grid{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:25px;
+  margin-top:40px;
+}
+.circle{
+  width:120px;
+  height:120px;
+  background:red;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:10px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.2;
+  cursor:pointer;
+  transition:.3s;
+  overflow:hidden;
+  word-break:break-word;
+}
+.circle:hover{
+  background:orange;
+  color:black;
+}
+.disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+}
+</style>
+</head>
+
+<body>
+
+<h1 style="background:white;color:black;text-align:center;padding:20px;">
+${subject} — Notes
+</h1>
+
+<div class="grid">
+`;
+
+  for(let c=1; c<=10; c++){
+    const pdfLink = notesLinks[subject]?.[c];
+    const name = chapterNames[subject]?.[c-1] || `Chapter ${c}`;
+
+    html += `
+      <div class="circle ${pdfLink ? '' : 'disabled'}"
+        ${pdfLink ? `onclick="window.open('${pdfLink}','_blank')"` : ''}>
+        ${name}
+      </div>
+    `;
+  }
+
+  html += `
+</div>
+</body>
+</html>
+`;
+
+  w.document.write(html);
+  w.document.close();
+}
+
+/* ================= MOCK TEST PLACEHOLDER ================= */
+
+function openMockChapters(subject, className){
+
+  let html = `
+   <!DOCTYPE html>
+  <html>
+  <head>
+    <title>${subject} ${className} Mock Test</title>
+    <style>
+      body{
+        margin:0;
+        background:#0b0b0b;
+        color:white;
+        font-family:Inter, Arial;
+      }
+      .circle{
+  width:120px;
+  height:120px;
+  background:#e70808;
+  color:#fff;
+  border:3px solid #000;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  padding:10px;
+
+  font-size:13px;
+  font-weight:600;
+  line-height:1.2;
+
+  cursor:pointer;
+  transition:0.3s;
+
+  overflow:hidden;        /* ⭐ MOST IMPORTANT */
+  word-wrap:break-word;  /* ⭐ */
+}
+  </style>
+  </head>
+  <body>
+    <div id="chapter-view" style="text-align:center;">
+       ${subject} | Class ${className} — Mock Test
+       </h2>
+    <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:25px;
+      margin-top:60px;
+    ">
+     
+<div class="circle-grid">
+  `;
+const chapterNames = {
+  "Physics IX": [
+    "Physical Quantities & Measurement",
+    "Kinematics",
+    "Dynamics",
+    "Turning Effect of Forces",
+    "Gravitation",
+    "Work & Energy",
+    "Properties of Matter",
+    "Thermal Properties of Matter",
+    "Transfer of Heat",
+    "Optics"
+  ],
+
+  "Physics X": [
+    "Simple Harmonic Motion",
+    "Wave Motion",
+    "Sound",
+    "Geometrical Optics",
+    "Electrostatics",
+    "Current Electricity",
+    "Electromagnetism",
+    "Basic Electronics",
+    "Information Technology",
+    "Atomic & Nuclear Physics"
+  ],
+
+  "Mathematics IX": [
+    "Real Numbers",
+    "Logarithms",
+    "Algebraic Expressions",
+    "Factorization",
+    "Matrices & Determinants",
+    "Linear Equations",
+    "Coordinate Geometry",
+    "Trigonometry",
+    "Probability",
+    "Statistics"
+  ],
+
+  "Biology IX": [
+    "Introduction to Biology",
+    "Biological Method",
+    "Biodiversity",
+    "Cell Biology",
+    "Enzymes",
+    "Nutrition",
+    "Respiration",
+    "Transportation",
+    "Excretion",
+    "Coordination"
+  ],
+
+  "Chemistry IX": [
+    "Fundamentals of Chemistry",
+    "Structure of Atoms",
+    "Periodic Table",
+    "Structure of Molecules",
+    "Physical States of Matter",
+    "Solutions",
+    "Electrochemistry",
+    "Chemical Reactivity",
+    "Thermochemistry",
+    "Environmental Chemistry"
+  ],
+
+  "Computer IX": [
+    "Introduction to Computer",
+    "Components of Computer",
+    "Data Representation",
+    "Operating Systems",
+    "Software",
+    "Programming Basics",
+    "Algorithms & Flowcharts",
+    "Programming Languages",
+    "Database",
+    "Networks"
+  ]
+};
+  for(let ch=1; ch<=10; ch++){
+  html += `
+    <div class="circle"
+      onclick="window.open(
+        'mock-test-engine.html?sub=${subject}&cls=${className}&ch=${ch}',
+        '_blank'
+      )">
+      ${chapterNames[subject + " " + className]?.[ch-1] || `Chapter ${ch}`}
+    </div>
+  `;
+}
+
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  document.getElementById('mocktest-section').innerHTML = html;
+}
+
+
+function openMockTest(subject, className, chapter){
+  const url = `mock-test-engine.html?subject=${encodeURIComponent(subject)}&class=${encodeURIComponent(className)}&chapter=${chapter}`;
+  window.open(url, '_blank');
+}
+
+/* ================= VIDEO LESSONS ================= */
+
+function openVideoChapters(subject, className){
+  const videoLinks = {
+    "Physics IX": {
+      1: "https://www.youtube.com/watch?v=VIDEO_ID_1",
+      2: "https://www.youtube.com/watch?v=VIDEO_ID_2"
+    },
+    "Mathematics IX": {
+      1: "https://www.youtube.com/watch?v=VIDEO_ID_3"
+    }
+    // add more subjects/classes later
+  };
+
+  const key = subject + " " + className;
+  const w = window.open('', '_blank');
+
+  let html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>${subject} ${className} Videos</title>
+    <style>
+      body{
+        margin:0;
+        background:#0b0b0b;
+        color:white;
+        font-family:Inter, Arial;
+      }
+      .circle{
+  width:120px;
+  height:120px;
+  background:#e70808;
+  color:#fff;
+  border:3px solid #000;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  padding:10px;
+
+  font-size:13px;
+  font-weight:600;
+  line-height:1.2;
+
+  cursor:pointer;
+  transition:0.3s;
+
+  overflow:hidden;        /* ⭐ MOST IMPORTANT */
+  word-wrap:break-word;  /* ⭐ */
+}
+
+    </style>
+  </head>
+
+  <body>
+    <h1 style="background:orange;color:black;text-align:center;padding:20px;">
+      ${subject} | Class ${className} — Video Lessons
+    </h1>
+
+    <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:25px;
+      margin-top:60px;
+    ">
+  `;
+const chapterNames = {
+  "Physics IX": [
+    "Physical Quantities & Measurement",
+    "Kinematics",
+    "Dynamics",
+    "Turning Effect of Forces",
+    "Gravitation",
+    "Work & Energy",
+    "Properties of Matter",
+    "Thermal Properties of Matter",
+    "Transfer of Heat",
+    "Optics"
+  ],
+
+  "Physics X": [
+    "Simple Harmonic Motion",
+    "Wave Motion",
+    "Sound",
+    "Geometrical Optics",
+    "Electrostatics",
+    "Current Electricity",
+    "Electromagnetism",
+    "Basic Electronics",
+    "Information Technology",
+    "Atomic & Nuclear Physics"
+  ],
+
+  "Mathematics IX": [
+    "Real Numbers",
+    "Logarithms",
+    "Algebraic Expressions",
+    "Factorization",
+    "Matrices & Determinants",
+    "Linear Equations",
+    "Coordinate Geometry",
+    "Trigonometry",
+    "Probability",
+    "Statistics"
+  ],
+
+  "Biology IX": [
+    "Introduction to Biology",
+    "Biological Method",
+    "Biodiversity",
+    "Cell Biology",
+    "Enzymes",
+    "Nutrition",
+    "Respiration",
+    "Transportation",
+    "Excretion",
+    "Coordination"
+  ],
+
+  "Chemistry IX": [
+    "Fundamentals of Chemistry",
+    "Structure of Atoms",
+    "Periodic Table",
+    "Structure of Molecules",
+    "Physical States of Matter",
+    "Solutions",
+    "Electrochemistry",
+    "Chemical Reactivity",
+    "Thermochemistry",
+    "Environmental Chemistry"
+  ],
+
+  "Computer IX": [
+    "Introduction to Computer",
+    "Components of Computer",
+    "Data Representation",
+    "Operating Systems",
+    "Software",
+    "Programming Basics",
+    "Algorithms & Flowcharts",
+    "Programming Languages",
+    "Database",
+    "Networks"
+  ]
+};
+  for(let ch=1; ch<=10; ch++){
+    const link = videoLinks[key]?.[ch];
+    html += `
+      <div class="circle"
+        style="opacity:${link ? 1 : 0.4};cursor:${link ? 'pointer' : 'not-allowed'}"
+        ${link ? `onclick="window.open('${link}','_blank')"` : ''}>
+      ${chapterNames[key]?.[ch-1] || `Chapter ${ch}`}
+      </div>
+    `;
+  };
+
+  html += `
+    </div>
+  </body>
+  </html>
+  `;
+
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+
+
+</script>
+</body>
+</html>
