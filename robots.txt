@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://the-student-e-book-library.github.io/The-student-e-book-library/sitemap.xml
