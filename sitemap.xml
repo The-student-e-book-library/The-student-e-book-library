@@ -1,1 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://the-student-e-book-library.github.io/The-student-e-book-library/</loc>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://the-student-e-book-library.github.io/The-student-e-book-library/mock-test-engine.html</loc>
+    <priority>0.80</priority>
+  </url>
+
+</urlset>
 
