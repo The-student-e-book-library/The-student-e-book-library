@@ -85,13 +85,24 @@ nav ul{list-style:none;display:flex;gap:25px;}
 nav ul li{position:relative;}
 nav ul li a{text-decoration:none;color:rgb(7, 7, 7);font-weight:500;padding:8px 5px;cursor:pointer;}
 nav ul li a:hover{color:orange;}
-.dropdown{display:none;position:absolute;top:35px;background:orange;padding:10px 0;border-radius:6px;min-width:170px;}
-.dropdown a{display:block;padding:8px 15px;color:white;font-size:14px;}
-.dropdown a:hover{background:orange;color:black;}
-nav ul li:hover > .dropdown,
-nav ul li .dropdown:hover{
+.dropdown{
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  background:orange;
+  border-radius:6px;
+  min-width:180px;
+  padding:8px 0;
+  z-index:9999;
+}
+
+nav ul li:hover .dropdown,
+nav ul li:focus-within .dropdown{
   display:block;
 }
+
+
 
 /* ================= SECTIONS ================= */
 section{display:none;min-height:100vh;padding:60px 40px;}
@@ -349,14 +360,16 @@ footer{background:#000;text-align:center;padding:20px;font-size:14px;color:#aaa;
     <ul>
       <li><a onclick="showSection('home')">HOME</a></li>
       <li>
-        <a>BOARD</a>
+        <a href="javascript:void(0)">BOARD</a>
+
         <div class="dropdown">
           <a onclick="showSection('akueb-board')">AKUEB</a>
           <a onclick="showSection('federal-board')">FEDERAL</a>
         </div>
       </li>
       <li>
-        <a>LEARNING MATERIAL</a>
+        <a href="javascript:void(0)">LEARNING MATERIAL</a>
+
         <div class="dropdown">
           <a onclick="showSection('notes-section')">Notes</a>
           <a onclick="showSection('mocktest-section')">Mock Test</a>
